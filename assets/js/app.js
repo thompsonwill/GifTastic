@@ -3,15 +3,11 @@ var movies = ["The Hangover", "Bridesmaids", "Superbad", "21 Jump Street", "The 
 
 function renderButtons() {
 
-  // Deleting the movies prior to adding new movies
-  // (this is necessary otherwise we will have repeat buttons)
   $("#movieTheater").empty();
 
   // Looping through the array of movies
   for (var i = 0; i < movies.length; i++) {
 
-    // Then dynamicaly generating buttons for each movie in the array
-    // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
     var a = $("<button>");
     // Adding a class of movie to our button
     a.addClass("movie");
@@ -28,14 +24,12 @@ renderButtons();
 $("#add-movie").on("click", function(event) {
   // Preventing the buttons default behavior when clicked (which is submitting a form)
   event.preventDefault();
-  // This line grabs the input from the textbox
+
   var movie = $("#movie-input").val().trim();
   console.log("Your new movie choice is: " + movie);
 
-  // Adding the movie from the textbox to our array
   movies.push(movie);
 
-  // Calling renderButtons which handles the processing of our movie array
   renderButtons();
 
 });
