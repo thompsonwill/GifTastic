@@ -1,3 +1,4 @@
+$(document).ready(function(){
 var movies = ["The Hangover", "Bridesmaids", "Superbad", "21 Jump Street", "The 40-Year-Old Virgin", "Tropic Thunder"];
 
 function renderButtons() {
@@ -29,6 +30,7 @@ $("#add-movie").on("click", function(event) {
   event.preventDefault();
   // This line grabs the input from the textbox
   var movie = $("#movie-input").val().trim();
+  console.log("Your new movie choice is: " + movie);
 
   // Adding the movie from the textbox to our array
   movies.push(movie);
@@ -38,11 +40,13 @@ $("#add-movie").on("click", function(event) {
 
 });
 
-$("button").on("click", function() {
-      var movie = $(this).attr("data-name");
+  $("body").on("click", ".movie", function() {
+  event.preventDefault();
+      var movieChoice = $(this).attr("data-name");
+      console.log("The button you clicked is: " + movieChoice);
 
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        movie + "&api_key=N5OKJJ5Kx7gKlaYEZha1x3zZvZli3Wwd&limit=10";
+        movieChoice + "&api_key=N5OKJJ5Kx7gKlaYEZha1x3zZvZli3Wwd&limit=10";
 
       // Performing an AJAX request with the queryURL
       $.ajax({
@@ -64,10 +68,12 @@ $("button").on("click", function() {
             var p = $("<p>").text("Rating: " + results[i].rating);
 
             var movieGif = $("<img>");
+            
             movieGif.attr("src", results[i].images.fixed_height_still.url);
+            movieGif.attr("data-state", "still");
             movieGif.attr("data-still", results[i].images.fixed_height_still.url);
             movieGif.attr("data-animate", results[i].images.fixed_height.url);
-            movieGif.attr("data-state", "still");
+            
             movieGif.addClass("gif");
 
             movieDiv.append(p);
@@ -76,10 +82,10 @@ $("button").on("click", function() {
             $("#movies").prepend(movieDiv);
 
 
+            
             $(".gif").on("click", function() {
-              console.log("Gif click");
               var state = $(this).attr("data-state");
-              console.log(state);
+              console.log($(this).attr("data-state"));
               if (state === "still") {
                 $(this).attr("src", $(this).attr("data-animate"));
                 $(this).attr("data-state", "animate");
@@ -92,3 +98,4 @@ $("button").on("click", function() {
           }
         });
     });
+  });
